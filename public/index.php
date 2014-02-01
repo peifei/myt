@@ -1,5 +1,5 @@
 <?php
-
+defined('SITE_BASE_URL') || define('SITE_BASE_URL','http://'.$_SERVER['HTTP_HOST'].'/myt/public/');
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));

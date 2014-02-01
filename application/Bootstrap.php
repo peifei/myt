@@ -10,7 +10,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$front=Zend_Controller_Front::getInstance();
 		$front->setControllerDirectory(array(
 			'default'=>'../application/controllers',
-		    'admin'=>'../application/modules/admin'
+		    'admin'=>'../application/modules/admin',
+		    'pricing'=>'../application/modules/pricing',
+		    'medicine'=>'../application/modules/medicine'
 		));
 	}
 
