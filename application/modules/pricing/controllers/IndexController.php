@@ -10,9 +10,8 @@ class Pricing_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        //$dbMedType=new Application_Model_DbTable_MedType();
-        //$res=$dbMedType->getMedsList();
-        //$this->view->medsList=$res;
+        $form=new Pricing_Form_Pricing();
+        $this->view->form=$form;
     }
     public function addAction(){
         

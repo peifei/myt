@@ -24,22 +24,20 @@
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">铭壹堂</a>
+          <a class="navbar-brand" href="<?php echo SITE_BASE_URL?>">铭壹堂</a>
         </div>
       </div>
     </div>
 
     <div class="container">
     <div class="row">
-    	<div class="col-sm-3 sidebar">
-    		<ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview</a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
+    	<?php echo $this->render($this->sideNav())?>
+    	<div class="col-sm-9 col-sm-offset-3 main">
+    	<?php if(isset($this->fbmsg)){?>
+    		<div class="alert <?php echo $this->msgType?>"><?php echo $this->fbmsg?></div>
+    	<?php }?>
+    	<?php echo $this->layout()->content; ?>
     	</div>
-    	<div class="col-sm-9 col-sm-offset-3 main"><?php echo $this->layout()->content; ?></div>
     </div>
 
 

@@ -1,2 +1,28 @@
+<style type="text/css">
+table td a{float: right;}
+</style>
 <h3 class="page-header">药品列表</h3>
-<div class="row"></div>
+<?php if(count($this->medsList)>0){?>
+<table class="table table-striped table-bordered">
+<tr><th width="10%">序号</th><th width="40%">药材名称</th><th width="10%">序号</th><th width="40%">药材名称</th></tr>
+<?php
+$num=1;
+foreach($this->medsList as $med){
+    if($num%2==1){
+        echo "<tr><td>".$num."</td><td>".$med['med_name']."<a href=\"".SITE_BASE_URL."medicine/update?id=".$med['id']."\">编辑</a></td>";
+    }
+    if($num%2==0){
+        echo "<td>".$num."</td><td>".$med['med_name']."<a href=\"".SITE_BASE_URL."medicine/update?id=".$med['id']."\">编辑</a></td></tr>";
+    }
+    $num++;
+}
+if($num%2==0){
+    echo "<td>&nbsp;</td><td>&nbsp;</td></tr>";
+}
+?>
+</table>
+
+
+
+
+<?php }?>

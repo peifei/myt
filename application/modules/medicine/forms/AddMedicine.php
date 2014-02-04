@@ -16,7 +16,7 @@ class Medicine_Form_AddMedicine extends Application_Form_MyForm
                 ->setAttrib('class', 'form-control');
         $this->setTextDecorator($medName);
                 
-        $medUnit=new Zend_Form_Element_Text('medUit');
+        $medUnit=new Zend_Form_Element_Text('medUnit');
         $medUnit->setLabel('请输入计量单位');
         $medUnit->setValue('克');
         $medUnit->setRequired(true)
@@ -34,6 +34,18 @@ class Medicine_Form_AddMedicine extends Application_Form_MyForm
         
         
         $this->addElements(array($medName,$medUnit,$smtBtn));
+    }
+    
+    public function prepareForUpdate($id){
+        $dbMedBase=new Medicine_Model_DbTable_MedBase();
+        $medBase=$dbMedBase->getMedById($id);
+        $eMedName=$this->getElement('medName');
+        $eMedName->setValue($medBase->med_name);
+        $eMedUnit=$this->getElement('medUnit');
+        $eMedUnit->setValue($medBase->med_unit);
+        $id=new Zend_Form_Element_Hidden('id');
+        $id->setValue($medBase->id);
+        $this->addElement($id);
     }
     
 
