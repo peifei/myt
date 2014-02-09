@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="this is description">
     <title>this is page title</title>
+    <script src="<?php echo SITE_BASE_URL?>js/jquery-1.10.2.min.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="<?php echo SITE_BASE_URL?>css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo SITE_BASE_URL?>css/global.css" rel="stylesheet">
@@ -34,7 +35,9 @@
     	<?php echo $this->render($this->sideNav())?>
     	<div class="col-sm-9 col-sm-offset-3 main">
     	<?php if(isset($this->fbmsg)){?>
-    		<div class="alert <?php echo $this->msgType?>"><?php echo $this->fbmsg?></div>
+    		<div class="alert <?php echo $this->msgType?>"><?php echo $this->fbmsg?>
+    		<span id="fbclose">X</span>
+    		</div>
     	<?php }?>
     	<?php echo $this->layout()->content; ?>
     	</div>
@@ -54,8 +57,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+
   </body>
 </html>
 

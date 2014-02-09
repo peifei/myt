@@ -15,6 +15,17 @@ class Medicine_Form_AddMedicine extends Application_Form_MyForm
                 ->addValidator('StringLength',true,array(1,20,'utf-8'))
                 ->setAttrib('class', 'form-control');
         $this->setTextDecorator($medName);
+        
+        $medPrice=new Zend_Form_Element_Text('medPrice');
+        $medPrice->setLabel('请输入价格');
+        $medPrice->setRequired(true)
+                ->addFilter('StringTrim')
+                ->addFilter('StripTags')
+                ->addValidator('NotEmpty',true)
+                ->addValidator('Float',true)
+                ->addValidator('StringLength',true,array(1,9,'utf-8'))
+                ->setAttrib('class', 'form-control');
+        $this->setTextDecorator($medPrice);
                 
         $medUnit=new Zend_Form_Element_Text('medUnit');
         $medUnit->setLabel('请输入计量单位');
@@ -33,7 +44,7 @@ class Medicine_Form_AddMedicine extends Application_Form_MyForm
         $this->setSmtBtn($smtBtn);
         
         
-        $this->addElements(array($medName,$medUnit,$smtBtn));
+        $this->addElements(array($medName,$medUnit,$medPrice,$smtBtn));
     }
     
     public function prepareForUpdate($id){
@@ -41,6 +52,8 @@ class Medicine_Form_AddMedicine extends Application_Form_MyForm
         $medBase=$dbMedBase->getMedById($id);
         $eMedName=$this->getElement('medName');
         $eMedName->setValue($medBase->med_name);
+        $eMedPrice=$this->getElement('medPrice');
+        $eMedPrice->setValue($medBase->med_price);
         $eMedUnit=$this->getElement('medUnit');
         $eMedUnit->setValue($medBase->med_unit);
         $id=new Zend_Form_Element_Hidden('id');

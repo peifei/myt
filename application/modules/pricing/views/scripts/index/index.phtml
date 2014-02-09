@@ -1,2 +1,282 @@
+<script src="<?php echo SITE_BASE_URL?>js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="<?php echo SITE_BASE_URL?>js/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="<?php echo SITE_BASE_URL?>js/bootstrap.min.js"></script>
+<link href="<?php echo SITE_BASE_URL?>css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<style type="text/css">
+.row .page-header{width:250px}
+#base{width: 250px}
+#base .form-group{margin-bottom:0}
+#pri{margin-top:15px;padding-top:10px; border-top: solid 1px #cccccc}
+.form-inline{margin:5px 0}
+#medtable tr td{font-size: 12px;width: 13%}
+#medList{position: fixed; width: 422px; top: 60px; left: 560px}
+.jumbotron{padding: 10px !important; margin-bottom: 0}
+.jumbotron p{font-size: 16px;font-weight: 200;margin-bottom: 5px;}
+.red{color: red; margin-left: 10px;}
+</style>
+<div class="row">
 <h3 class="page-header">处方划价</h3>
-<?php echo $this->form?>
+<?php echo $this->pricingForm?>
+
+<div id="medList" class="jumbotron">
+<p>常用药材选择列表</p>
+<table id='medtable' class="table table-condensed table-striped">
+<?php
+$i=1; 
+foreach($this->medList as $med){
+    if($i%6==1){
+        echo "<tr><td><span price='".$med['med_price']."'>".$med['med_name']."</span></td>";
+    }elseif($i%6==0){
+        echo "<td><span price='".$med['med_price']."'>".$med['med_name']."</span></td></tr>";
+    }else{
+        echo "<td><span price='".$med['med_price']."'>".$med['med_name']."</span></td>";
+    }
+    $i++;
+}
+if(($i-1)%6!=0){
+    $padnum=6-(($i-1)%6);
+    for($j=0;$j<$padnum;$j++){
+        echo "<td>&nbsp;</td>";
+    }
+    echo "<tr/>";
+}
+?>
+</table>
+</div>
+</div>
+<hr/>
+<?php echo $this->formMed?>
+<?php if(count($this->pricingList)>0){?>
+<h3 class="page-header">今日划价列表</h3>
+<table class='table table-striped'>
+<tr><th>客户姓名</th><th>性别</th><th>出诊医师</th><th>出药数量</th><th>价格总计</th><th>详细</th></tr>
+<?php foreach ($this->pricingList as $pricing){?>
+<tr><td><?php echo $pricing['name']?></td>
+    <td><?php echo $pricing['sex']?></td>
+    <td><?php echo $pricing['doc_name']?></td>
+    <td><?php echo $pricing['num']?></td>
+    <td><?php echo $pricing['sum']?></td>
+    <td><a onclick="loadPricingInfo(<?php echo $pricing['id']?>)">查看详细信息</a></td>
+</tr>
+<?php }?>
+</table>
+<?php }?>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class='modal-dialog'>
+	<div class='modal-content'>
+		<div class='modal-header'>
+			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+			<h4 class='modal-title' id='myModalLabel'>划价单详细信息</h4>
+		</div>
+		<div class='modal-body'>
+		</div>
+		<div class='modal-footer'>
+			<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+		</div>
+	</div>
+</div>
+</div><!-- /.modal -->
+
+<script>
+
+function loadPricingInfo(id){
+	console.log('aaaa');
+	$(".modal-body").html('数据载入中，请稍等......');
+	$("#myModal").modal('show');
+	url="<?php echo SITE_BASE_URL.'pricing/index/pricing-detail?id='?>"+id;
+	$.ajax({
+        url: url,
+    }).success(function(data) {
+        $(".modal-body").html(data);
+    });
+}
+
+
+
+//绑定日期选择器
+$(function(){
+	//$.datepicker.formatDate( "yymmdd");
+	$("#date").datepicker();
+});
+
+
+var i=1;
+function addNewLine(){
+	newelement=$(".newest").clone().wrap('<p>').parent().html();
+	newelement=newelement.replace(/[0-9]/g,++i);
+	$(".newest").removeClass('newest');
+	$('#pri').append(newelement);
+	newelement=$(".newest");
+	newelement.find('.yy').val('');
+	newelement.find('.pp').val('');
+	newelement.find('.mm').val('');
+	newelement.find('.tt').val('');
+	newelement.find('.red').remove();
+}
+
+function sumAll(sum){
+	num=$('#num').val();
+	if(''==num){
+		num=1;
+	}
+	$("#sum").val(sum*num);
+}
+
+function smtform(){
+	if(checkform()){
+		console.log('form submit');
+		if(''==$('#num').val()){
+			$('#num').val(1);
+		}
+		document.forms[0].submit();
+	}
+}
+
+function checkform(){
+	if(''==$('#name').val()){
+		alert('客户姓名不能为空');
+		return false;
+	}
+
+	if($('input[type=radio][name=sex]:checked').length==0){
+		alert('请选择性别');
+		return false;
+	}
+	if(''==$('#doc').val()){
+		alert('请选择医师');
+		return false;
+	}
+
+	strdate=$('#date').val();
+	if(!strdate.match(/^\d{4}[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])$/)){
+		alert('请选择正确日期');
+		return false;
+	}
+	if(!checkMedPrice()){
+		//alert('请检查划价单数据');
+		return false;
+	}
+	return true;
+}
+
+function checkMedPrice(){
+	checkflag=0;
+	numfag=0;
+	$('#pri .form-inline').each(function(){
+		yy=$(this).find('.yy').val();
+		pp=$(this).find('.pp').val();
+		mm=$(this).find('.mm').val();
+		tt=$(this).find('.tt').val();
+		console.log(yy+pp+mm+tt);
+		if(''==yy&&''==pp&&''==mm&&''==tt){
+			return;
+		}
+		if(''!=yy&&''!=pp&&''!=mm&&''!=tt){
+			if(!isNaN(pp)&&!isNaN(mm)&&!isNaN(tt)){
+				numfag++;
+				return;
+			}else{
+				if(!$(this).has('.red')){
+					$(this).append("<span class='red'>*</span>");
+				}
+				checkflag++;
+				return;
+			}
+		}else{
+			if(!$(this).has('.red')){
+				$(this).append("<span class='red'>*</span>");
+			}
+			checkflag++;
+			return;
+		}
+	});
+
+	if(checkflag>0){
+		alert('请检查划价单数据');
+		return false;
+	}else{
+		if(numfag==0){
+			alert('至少需要一项药材记录');
+			return false;
+		}
+	}
+	return true;
+}
+
+$(document).ready(function(){
+	$(".table tr td span").bind('click',function(){
+		emptyelement=null;
+		$('#pri .form-inline').each(function(){
+			if(''==$(this).find('.yy').val()){
+				emptyelement=$(this);
+				return false;
+			}
+		});
+
+		if(null==emptyelement){
+			alert('111');
+			addNewLine();
+			emptyelement=$(".newest");
+		}
+
+		if(emptyelement.hasClass('newest')){
+    		newelement=$(".newest").clone().wrap('<p>').parent().html();
+    		newelement=newelement.replace(/[0-9]/g,++i);
+    		//alert($(".newest").length);
+    		$(".newest .yy").val($(this).text());
+    		$(".newest .pp").val($(this).attr('price'));
+    		$(".newest").removeClass('newest');
+    		$('#pri').append(newelement);
+		}else{
+			emptyelement.find('.yy').val($(this).text());
+			emptyelement.find('.pp').val($(this).attr('price'));
+		}
+		
+		
+		//alert($(this).text());
+	});
+
+	$("#pri").on('blur','.mm',function(){
+		mm=$(this).val();
+		if(''!=mm){
+    		id=$(this).attr('id').substr(1);
+    		if(''!=$("#p"+id).val()){
+        		$("#t"+id).val((mm*$("#p"+id).val()).toFixed(2));
+        		var sum=0;
+        		$(".tt").each(function(){
+        			sum+=Number($(this).val());
+        		});
+        		sumAll(sum);
+    		}
+		}
+	});
+
+	$("#pri").on('blur','.pp',function(){
+		pp=$(this).val();
+		if(''!=pp){
+    		id=$(this).attr('id').substr(1);
+    		if(''!=$("#m"+id).val()){
+        		$("#t"+id).val(pp*$("#m"+id).val());
+        		var sum=0;
+        		$(".tt").each(function(){
+        			sum+=Number($(this).val());
+        		});
+        		sumAll(sum);
+    		}
+		}
+	});
+
+	$("#num").bind('blur',function(){
+		sum=$("#sum").val();
+		if(''!=sum){
+			sumAll(sum);
+		}
+	});
+	
+	$('#addNew').width($('.newest .form-group .yy').width());
+	$('#smtBtn').width($('.newest .form-group .yy').width());
+	
+});
+</script>

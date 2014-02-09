@@ -11,14 +11,19 @@ class Medicine_Model_DbTable_MedBase extends Zend_Db_Table_Abstract
     public function addNewMed($postData){
         $data['med_name']=$postData['medName'];
         $data['med_unit']=$postData['medUnit'];
+        $data['med_price']=$postData['medPrice'];
         $this->insert($data);
     }
     /**
      * 取得药材品种列表
      * Enter description here ...
      */
-    public function getMedsList(){
-        $res=$this->fetchAll();
+    public function getMedsList($limit=null){
+        if(null!=$limit){
+            $res=$this->fetchAll(true,'priority desc',$limit);
+        }else{
+            $res=$this->fetchAll();
+        }
         return $res;
     }
     /**
@@ -33,6 +38,7 @@ class Medicine_Model_DbTable_MedBase extends Zend_Db_Table_Abstract
     public function updateMed($postData){
         $data['med_name']=$postData['medName'];
         $data['med_unit']=$postData['medUnit'];
+        $data['med_price']=$postData['medPrice'];
         $this->update($data,"id ='".$postData['id']."'");
     }
 
