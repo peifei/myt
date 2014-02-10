@@ -1,1 +1,70 @@
-<br /><br /><center>View script for controller <b>List</b> and script/action name <b>index</b></center>
+<script src="<?php echo SITE_BASE_URL?>js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="<?php echo SITE_BASE_URL?>js/jquery.ui.datepicker-zh-CN.js"></script>
+<script src="<?php echo SITE_BASE_URL?>js/bootstrap.min.js"></script>
+<link href="<?php echo SITE_BASE_URL?>css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<style>
+#dateform{margin: 10px}
+</style>
+<h3 class="page-header">划价记录查询</h3>
+<form id="dateform">
+请选择日期：<input type="text" name="date" id="date" value="<?php echo $this->date?>"/>
+</form>
+<?php if(count($this->pricingList)>0){?>
+<table class='table table-striped'>
+<tr><th>客户姓名</th><th>性别</th><th>出诊医师</th><th>出药数量</th><th>价格总计</th><th>详细</th></tr>
+<?php foreach ($this->pricingList as $pricing){?>
+<tr><td><?php echo $pricing['name']?></td>
+    <td><?php echo $pricing['sex']?></td>
+    <td><?php echo $pricing['doc_name']?></td>
+    <td><?php echo $pricing['num']?></td>
+    <td><?php echo $pricing['sum']?></td>
+    <td><a onclick="loadPricingInfo(<?php echo $pricing['id']?>)">查看详细信息</a></td>
+</tr>
+<?php }?>
+</table>
+<?php }else{?>
+<div class="alert alert-info">
+当前日期没有记录！
+</div>
+<?php }?>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class='modal-dialog'>
+	<div class='modal-content'>
+		<div class='modal-header'>
+			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+			<h4 class='modal-title' id='myModalLabel'>划价单详细信息</h4>
+		</div>
+		<div class='modal-body'>
+		</div>
+		<div class='modal-footer'>
+			<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+		</div>
+	</div>
+</div>
+</div><!-- /.modal -->
+
+<script>
+//绑定日期选择器
+$(function(){
+	//$.datepicker.formatDate( "yymmdd");
+	$("#date").datepicker({
+		onClose:function(){
+			self.location="<?php echo SITE_BASE_URL.'pricing/list/?date='?>"+$(this).val();
+		}
+	});
+});
+
+function loadPricingInfo(id){
+	console.log('aaaa');
+	$(".modal-body").html('数据载入中，请稍等......');
+	$("#myModal").modal('show');
+	url="<?php echo SITE_BASE_URL.'pricing/index/pricing-detail?id='?>"+id;
+	$.ajax({
+        url: url,
+    }).success(function(data) {
+        $(".modal-body").html(data);
+    });
+}
+</script>

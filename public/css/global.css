@@ -6,6 +6,16 @@ body{padding-top: 50px; padding-bottom:30px; font-family:Microsoft YaHei;}
   border-bottom: 1px solid #eee;
 }
 
+.alert {
+    border: 1px solid transparent;
+    border-radius: 4px 4px 4px 4px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding: 6px;
+}
+
+#fbclose{float:right;}
+#fbclose:hover{cursor: pointer;}
 
 /*
  * Sidebar
@@ -80,3 +90,4 @@ body{padding-top: 50px; padding-bottom:30px; font-family:Microsoft YaHei;}
 .placeholder img {
   border-radius: 50%;
 }
+
