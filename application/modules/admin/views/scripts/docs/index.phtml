@@ -1,0 +1,12 @@
+<h3 class="page-header">医师信息维护</h3>
+<?php if(count($this->docList)>0){?>
+<table class="table table-striped">
+<tr><th>医师姓名</th><th>出诊时间</th><th>操作</th></tr>
+<?php foreach($this->docList as $docInfo){?>
+<tr><th><?php echo $docInfo->name?></th><th>--</th><th><a href="#">编辑</a><a herf="#">删除</a></th></tr>
+<?php }?>
+</table>
+
+
+
+<?php }?>
