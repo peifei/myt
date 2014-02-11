@@ -34,6 +34,14 @@ class Medicine_Model_DbTable_MedBase extends Zend_Db_Table_Abstract
         $res=$this->fetchRow("id ='".$id."'");
         return $res;
     }
+    /**
+     * 根据名字取得药材信息
+     * @param unknown_type $medName
+     */
+    public function getMedByName($medName){
+        $res=$this->fetchRow("med_name ='".$medName."'");
+        return $res;
+    }
     
     public function updateMed($postData){
         $data['med_name']=$postData['medName'];

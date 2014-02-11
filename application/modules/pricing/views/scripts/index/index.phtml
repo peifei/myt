@@ -95,17 +95,12 @@ function loadPricingInfo(id){
 
 
 
-//绑定日期选择器
-$(function(){
-	//$.datepicker.formatDate( "yymmdd");
-	$("#date").datepicker();
-});
+var j=1;
+var newLine='<div class="form-inline newest"><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
 
-
-var i=1;
 function addNewLine(){
 	newelement=$(".newest").clone().wrap('<p>').parent().html();
-	newelement=newelement.replace(/[0-9]/g,++i);
+	newelement=newelement.replace(/[0-9]/g,++j);
 	$(".newest").removeClass('newest');
 	$('#pri').append(newelement);
 	newelement=$(".newest");
@@ -114,6 +109,10 @@ function addNewLine(){
 	newelement.find('.mm').val('');
 	newelement.find('.tt').val('');
 	newelement.find('.red').remove();
+	newelement.find('.ui-helper-hidden-accessible').remove();
+
+	bindAutoCom();
+	
 }
 
 function sumAll(sum){
@@ -221,19 +220,15 @@ $(document).ready(function(){
 		}
 
 		if(emptyelement.hasClass('newest')){
-    		newelement=$(".newest").clone().wrap('<p>').parent().html();
-    		newelement=newelement.replace(/[0-9]/g,++i);
-    		//alert($(".newest").length);
     		$(".newest .yy").val($(this).text());
     		$(".newest .pp").val($(this).attr('price'));
-    		$(".newest").removeClass('newest');
-    		$('#pri').append(newelement);
+    		addNewLine();
 		}else{
 			emptyelement.find('.yy').val($(this).text());
 			emptyelement.find('.pp').val($(this).attr('price'));
 		}
 		
-		
+		bindAutoCom();
 		//alert($(this).text());
 	});
 
@@ -276,6 +271,26 @@ $(document).ready(function(){
 	
 	$('#addNew').width($('.newest .form-group .yy').width());
 	$('#smtBtn').width($('.newest .form-group .yy').width());
-	
+
+	$("#date").datepicker();
+	bindAutoCom();
+	 
 });
+function bindAutoCom(){
+	 $(".yy").autocomplete({
+		source: availableTags,
+ 		select: function(event,ui) {
+ 			var e=$(this);
+ 			url="<?php echo SITE_BASE_URL.'pricing/index/medinfo?medName='?>"+encodeURI(ui.item.value);
+ 			$.ajax({
+ 		        url: url,
+ 		    }).success(function(data) {
+    			e.parent().parent().find('.pp').val(data);
+ 		        
+ 		    });
+ 	 	 }
+	 });
+}
+var availableTags = [<?php echo $this->medStr?>];
+
 </script>

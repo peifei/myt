@@ -1,0 +1,63 @@
+--
+-- 数据库: `myt`
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `docs`
+--
+
+CREATE TABLE IF NOT EXISTS `docs` (
+  `id` int(3) NOT NULL AUTO_INCREMENT,
+  `name` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `med_base`
+--
+
+CREATE TABLE IF NOT EXISTS `med_base` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `med_name` varchar(20) NOT NULL,
+  `med_price` double(9,2) NOT NULL,
+  `med_unit` varchar(5) NOT NULL,
+  `priority` int(7) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `pricing_main`
+--
+
+CREATE TABLE IF NOT EXISTS `pricing_main` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `name` varchar(5) NOT NULL,
+  `sex` varchar(1) NOT NULL,
+  `doc_name` varchar(5) NOT NULL,
+  `num` double(9,2) NOT NULL,
+  `sum` double(9,2) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `pricing_med`
+--
+
+CREATE TABLE IF NOT EXISTS `pricing_med` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `main_id` int(7) NOT NULL,
+  `y` varchar(5) NOT NULL,
+  `p` varchar(10) NOT NULL,
+  `m` varchar(10) NOT NULL,
+  `t` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;

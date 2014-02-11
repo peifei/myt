@@ -80,7 +80,7 @@ class Pricing_Model_DbTable_Pricing extends Zend_Db_Table_Abstract
     private function formatePriceData($data,$i){
         $y=$data['y'.$i];
         $p=$data['p'.$i];
-        $m=$data['p'.$i];
+        $m=$data['m'.$i];
         $t=$data['t'.$i];
         if(''==$y&&''==$p&&''==$m&&''==$t){
             return null;

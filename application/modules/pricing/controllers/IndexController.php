@@ -18,7 +18,13 @@ class Pricing_IndexController extends Zend_Controller_Action
         }
         $dbMedBase=new Medicine_Model_DbTable_MedBase();
         $medList=$dbMedBase->getMedsList(48);
+        $medAllList=$dbMedBase->getMedsList();
         $this->view->medList=$medList;
+        $medArrs=array();
+        foreach ($medAllList as $medInfo){
+            $medArrs[]="\"".$medInfo->med_name."\"";
+        }
+        $this->view->medStr=implode(',',$medArrs);
         $pricingForm=new Pricing_Form_Pricing();
         $this->view->pricingForm=$pricingForm;
         $dbPricing=new Pricing_Model_DbTable_Pricing();
@@ -69,6 +75,15 @@ class Pricing_IndexController extends Zend_Controller_Action
         </table>";
         
         echo $str;
+    }
+    
+    public function medinfoAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+        $medName=$this->getRequest()->getParam('medName');
+        $dbMedBase=new Medicine_Model_DbTable_MedBase();
+        $medInfo=$dbMedBase->getMedByName($medName);
+        echo $medInfo->med_price;
     }
 
 
