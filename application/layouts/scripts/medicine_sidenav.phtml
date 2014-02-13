@@ -1,7 +1,8 @@
 <div class="col-sm-3 sidebar">
 	<ul class="nav nav-sidebar">
-        <li class="active"><a href="<?php echo SITE_BASE_URL.'medicine/'?>">药材列表</a></li>
-        <li><a href="<?php echo SITE_BASE_URL.'medicine/add/'?>">添加药材</a></li>
-        <li><a href="#">库存管理</a></li>
+        <li<?php echo $this->activeNav('medicine')?>><a href="<?php echo SITE_BASE_URL.'medicine/'?>">药材列表</a></li>
+        <li<?php echo $this->activeNav('medicine','add')?>><a href="<?php echo SITE_BASE_URL.'medicine/add/'?>">添加药材</a></li>
+        <li<?php echo $this->activeNav('medicine','store')?>><a href="<?php echo SITE_BASE_URL.'medicine/store/'?>">入库历史记录</a></li>
+        <li<?php echo $this->activeNav('medicine','store','stockin')?>><a href="<?php echo SITE_BASE_URL.'medicine/store/stockin'?>">入库登记</a></li>
 	</ul>
 </div>

@@ -274,8 +274,7 @@ $(document).ready(function(){
 
 	$("#date").datepicker();
 	bindAutoCom();
-	$('#medList').css('left',$('#base').offset().left+280);
-    console.log($('#base').offset().left);
+	$('#medList').css('left',$('#base').offset().left+270);
 	 
 });
 function bindAutoCom(){
@@ -287,7 +286,8 @@ function bindAutoCom(){
  			$.ajax({
  		        url: url,
  		    }).success(function(data) {
-    			e.parent().parent().find('.pp').val(data);
+ 		    	data=JSON.parse(data)
+    			e.parent().parent().find('.pp').val(data.id);
  		        
  		    });
  	 	 }

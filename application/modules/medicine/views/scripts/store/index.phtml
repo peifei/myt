@@ -1,0 +1,13 @@
+<h3 class="page-header">药材入库记录</h3>
+<?php if(count($this->stockinList)>0){?>
+<table class="table table-striped">
+<tr><th>药材名称</th><th>入库数量</th><th>计量单位</th><th>入库时间</th></tr>
+<?php foreach ($this->stockinList as $stockinInfo){?>
+<tr><td><?php echo $stockinInfo['med_name']?></td>
+	<td><?php echo $stockinInfo['num']?></td>
+	<td><?php echo $stockinInfo['med_unit']?></td>
+	<td><?php echo $stockinInfo['date_time']?></td>
+</tr>
+<?php }?>
+</table>
+<?php }?>

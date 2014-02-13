@@ -83,7 +83,8 @@ class Pricing_IndexController extends Zend_Controller_Action
         $medName=$this->getRequest()->getParam('medName');
         $dbMedBase=new Medicine_Model_DbTable_MedBase();
         $medInfo=$dbMedBase->getMedByName($medName);
-        echo $medInfo->med_price;
+        //echo $medInfo->med_price;
+        echo json_encode($medInfo->toArray());
     }
 
 

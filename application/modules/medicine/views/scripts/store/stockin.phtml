@@ -1,0 +1,32 @@
+<script src="<?php echo SITE_BASE_URL?>js/jquery-ui-1.10.4.custom.min.js"></script>
+<script src="<?php echo SITE_BASE_URL?>js/jquery.ui.datepicker-zh-CN.js"></script>
+<link href="<?php echo SITE_BASE_URL?>css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet">
+<h3 class="page-header">药材入库登记</h3>
+<?php echo $this->form?>
+<script type="text/javascript">
+
+$(function(){
+	var i=1;
+	var el=null;
+	$('#medName').autocomplete({
+		source: availableTags,
+ 		select: function(event,ui) {
+ 			var e=$(this);
+ 			url="<?php echo SITE_BASE_URL.'pricing/index/medinfo?medName='?>"+encodeURI(ui.item.value);
+ 			$.ajax({
+ 		        url: url,
+ 		    }).success(function(data) {
+ 	 		    data=JSON.parse(data);
+ 	 		    if(!$('#inNum').parent().is('span')){
+ 	 		    	el=$("<span class=\"input-group-addon\"></span>");
+	 	 	 		$('#inNum').wrap('<span>').parent().attr('class','input-group');
+					$('#inNum').parent().append(el);
+ 	 		    }
+				el.text(data.med_unit);
+ 		    });
+ 	 	 }
+	 });
+	$("#date").datepicker();
+})
+var availableTags = [<?php echo $this->medStr?>];
+</script>
