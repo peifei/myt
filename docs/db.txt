@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `docs` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(5) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `med_base` (
   `med_unit` varchar(5) NOT NULL,
   `priority` int(7) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `pricing_main` (
   `sum` double(9,2) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -60,4 +60,18 @@ CREATE TABLE IF NOT EXISTS `pricing_med` (
   `m` varchar(10) NOT NULL,
   `t` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `med_stockin`
+--
+
+CREATE TABLE IF NOT EXISTS `med_stockin` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `med_id` varchar(7) NOT NULL,
+  `num` int(5) NOT NULL,
+  `date_time` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
