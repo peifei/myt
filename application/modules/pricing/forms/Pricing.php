@@ -57,13 +57,13 @@ class Pricing_Form_Pricing extends Application_Form_MyForm
         $y1->setAttribs(array('class'=>'form-control input-sm yy','placeholder'=>'药材名'));
         $this->setInlineDecorator($y1);
         $m1=new Zend_Form_Element_Text('m1');
-        $m1->setAttribs(array('class'=>'form-control input-sm mm','placeholder'=>'剂量'));
+        $m1->setAttribs(array('class'=>'form-control input-sm mm olm','placeholder'=>'剂量'));
         $this->setInlineDecorator($m1);
         $p1=new Zend_Form_Element_Text('p1');
-        $p1->setAttribs(array('class'=>'form-control input-sm pp','placeholder'=>'单价'));
+        $p1->setAttribs(array('class'=>'form-control input-sm pp olp','placeholder'=>'单价'));
         $this->setInlineDecorator($p1);
         $t1=new Zend_Form_Element_Text('t1');
-        $t1->setAttribs(array('class'=>'form-control input-sm tt','placeholder'=>'小计'));
+        $t1->setAttribs(array('class'=>'form-control input-sm tt olt','placeholder'=>'小计'));
         $this->setInlineDecorator($t1);
        /* $group2=new Zend_Form_DisplayGroup('disp1', new Zend_Loader_PluginLoader());
         $group2->addElements(array($y1,$p1,$m1,$t1));

@@ -96,20 +96,35 @@ function loadPricingInfo(id){
 
 
 var j=1;
-var newLine='<div class="form-inline newest"><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
+var newLine='<div class="form-inline"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
+var newLine2='<div class="form-inline newest"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
+
+
 
 function addNewLine(){
-	newelement=$(".newest").clone().wrap('<p>').parent().html();
-	newelement=newelement.replace(/[0-9]/g,++j);
+	//newelement=$(".newest").clone().wrap('<p>').parent().html();
+	//newelement=newelement.replace(/[0-9]/g,++j);
+	html='';
+	for(m=0;m<10;m++){
+		if(m<10){
+			newLineStr=newLine.replace(/[0-9]/g,++j);
+			html+=newLineStr;
+		}else{
+			newLine2Str=newLine2.replace(/[0-9]/g,++j);
+			html+=newLine2;
+		}
+	}
+
+
 	$(".newest").removeClass('newest');
-	$('#pri').append(newelement);
-	newelement=$(".newest");
+	$('#pri').append(html);
+	/*newelement=$(".newest");
 	newelement.find('.yy').val('');
 	newelement.find('.pp').val('');
 	newelement.find('.mm').val('');
 	newelement.find('.tt').val('');
 	newelement.find('.red').remove();
-	newelement.find('.ui-helper-hidden-accessible').remove();
+	newelement.find('.ui-helper-hidden-accessible').remove();*/
 
 	bindAutoCom();
 	
