@@ -24,17 +24,17 @@
 <?php
 $i=1; 
 foreach($this->medList as $med){
-    if($i%6==1){
+    if($i%5==1){
         echo "<tr><td><span price='".$med['med_price']."'>".$med['med_name']."</span></td>";
-    }elseif($i%6==0){
+    }elseif($i%5==0){
         echo "<td><span price='".$med['med_price']."'>".$med['med_name']."</span></td></tr>";
     }else{
         echo "<td><span price='".$med['med_price']."'>".$med['med_name']."</span></td>";
     }
     $i++;
 }
-if(($i-1)%6!=0){
-    $padnum=6-(($i-1)%6);
+if(($i-1)%5!=0){
+    $padnum=5-(($i-1)%5);
     for($j=0;$j<$padnum;$j++){
         echo "<td>&nbsp;</td>";
     }
@@ -274,7 +274,7 @@ $(document).ready(function(){
 
 	$("#date").datepicker();
 	bindAutoCom();
-	$('#medList').css('left',$('#base').offset().left+270);
+	$('#medList').css('left',$('#base').offset().left+600);
 	 
 });
 function bindAutoCom(){
@@ -286,7 +286,7 @@ function bindAutoCom(){
  			$.ajax({
  		        url: url,
  		    }).success(function(data) {
- 		    	data=JSON.parse(data)
+ 		    	data=JSON.parse(data);
     			e.parent().parent().find('.pp').val(data.id);
  		        
  		    });
