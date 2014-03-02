@@ -10,15 +10,20 @@ class Pricing_ListController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $date=$this->getRequest()->getParam('date');
-        if(''==$date){
-            $today=new Zend_Date();
-            $date=$today->toString('yyyy-MM-dd');
+        $datestart=$this->getRequest()->getParam('datestart');
+        $dateend=$this->getRequest()->getParam('dateend');
+        $today=new Zend_Date();
+        if(''==$datestart){
+            $datestart=$today->toString('yyyy-MM-dd');
         }
-        $this->view->date=$date;
+        if(''==$dateend){
+            $dateend=$today->toString('yyyy-MM-dd');
+        }
         $dbPricing=new Pricing_Model_DbTable_Pricing();
-        $pricingList=$dbPricing->getPricingListByDate($date);
+        $pricingList=$dbPricing->getPricingListByDate($datestart,$dateend);
         $this->view->pricingList=$pricingList;
+        $this->view->datestart=$datestart;
+        $this->view->dateend=$dateend;
     }
 
 

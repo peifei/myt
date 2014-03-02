@@ -17,7 +17,7 @@ class Pricing_IndexController extends Zend_Controller_Action
             $this->view->fbmsg=$arrMsg[1];
         }
         $dbMedBase=new Medicine_Model_DbTable_MedBase();
-        $medList=$dbMedBase->getMedsList(48);
+        $medList=$dbMedBase->getMedsList(80);
         $medAllList=$dbMedBase->getMedsList();
         $this->view->medList=$medList;
         $medArrs=array();
@@ -29,7 +29,7 @@ class Pricing_IndexController extends Zend_Controller_Action
         $this->view->pricingForm=$pricingForm;
         $dbPricing=new Pricing_Model_DbTable_Pricing();
         $today=new Zend_Date();
-        $pricingList=$dbPricing->getPricingListByDate($today->toString('yyyy-MM-dd'));
+        $pricingList=$dbPricing->getPricingListByDate($today->toString('yyyy-MM-dd'),$today->toString('yyyy-MM-dd'));
         $this->view->pricingList=$pricingList;
         $request=$this->getRequest();
         if($request->isPost()){

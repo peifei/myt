@@ -9,17 +9,20 @@
 #pri{margin-top:15px;padding-top:10px; border-top: solid 1px #cccccc}
 .form-inline{margin:5px 0}
 #medtable tr td{font-size: 12px;width: 13%}
+#medtable tr td span:hover{cursor:pointer}
 #medList{position: fixed; width: 422px; top: 60px; left: 560px}
 .jumbotron{padding: 10px !important; margin-bottom: 0}
 .jumbotron p{font-size: 16px;font-weight: 200;margin-bottom: 5px;}
 .red{color: red; margin-left: 10px;}
+.right{float: right; margin-right: 10px}
+.right #open{display: none;}
 </style>
 <div class="row">
 <h3 class="page-header">处方划价</h3>
 <?php echo $this->pricingForm?>
 
 <div id="medList" class="jumbotron">
-<p>常用药材选择列表</p>
+<p>常用药材选择列表<span class="right"><span id="close">&#9866;</span><span id="open">&#10064;</span></span></p>
 <table id='medtable' class="table table-condensed table-striped">
 <?php
 $i=1; 
@@ -96,28 +99,30 @@ function loadPricingInfo(id){
 
 
 var j=1;
-var newLine='<div class="form-inline"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
-var newLine2='<div class="form-inline newest"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
-
-
+//var newLine='<div class="form-inline"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
+//var newLine2='<div class="form-inline newest"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
+var newLine='<div class="form-inline"><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
+var newLine2='<div class="form-inline newest"><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
 
 function addNewLine(){
 	//newelement=$(".newest").clone().wrap('<p>').parent().html();
 	//newelement=newelement.replace(/[0-9]/g,++j);
+	$(".newest").removeClass('newest');
 	html='';
 	for(m=0;m<10;m++){
-		if(m<10){
+		if(m<9){
 			newLineStr=newLine.replace(/[0-9]/g,++j);
 			html+=newLineStr;
 		}else{
 			newLine2Str=newLine2.replace(/[0-9]/g,++j);
-			html+=newLine2;
+			html+=newLine2Str;
 		}
 	}
-
-
-	$(".newest").removeClass('newest');
 	$('#pri').append(html);
+
+	$('.pp').offset({left:$('.olp').offset().left});
+	$('.mm').offset({left:$('.olm').offset().left});
+	$('.tt').offset({left:$('.olt').offset().left});
 	/*newelement=$(".newest");
 	newelement.find('.yy').val('');
 	newelement.find('.pp').val('');
@@ -135,7 +140,7 @@ function sumAll(sum){
 	if(''==num){
 		num=1;
 	}
-	$("#sum").val(sum*num);
+	$("#sum").val((sum*num).toFixed(2));
 }
 
 function smtform(){
@@ -277,6 +282,17 @@ $(document).ready(function(){
 		}
 	});
 
+	$("#medList .right").bind('click',function(){
+		$('#medtable').toggle();
+		if($("#medList .right #close").is(':visible')){
+			$("#medList .right #close").hide();
+			$("#medList .right #open").show();
+		}else{
+			$("#medList .right #close").show();
+			$("#medList .right #open").hide();
+		}
+	});
+
 	$("#num").bind('blur',function(){
 		sum=$("#sum").val();
 		if(''!=sum){
@@ -289,7 +305,7 @@ $(document).ready(function(){
 
 	$("#date").datepicker();
 	bindAutoCom();
-	$('#medList').css('left',$('#base').offset().left+600);
+	$('#medList').css('left',$('#base').offset().left+630);
 	 
 });
 function bindAutoCom(){
@@ -302,7 +318,7 @@ function bindAutoCom(){
  		        url: url,
  		    }).success(function(data) {
  		    	data=JSON.parse(data);
-    			e.parent().parent().find('.pp').val(data.id);
+    			e.parent().parent().find('.pp').val(data.med_price);
  		        
  		    });
  	 	 }

@@ -83,7 +83,7 @@ class Pricing_Form_Pricing extends Application_Form_MyForm
         ));
         
         $addNew=new Zend_Form_Element_Button('addNew');
-        $addNew->setLabel("添加一行")->setAttribs(array('class'=>'btn btn-primary btn-sm','onclick'=>'addNewLine()'));
+        $addNew->setLabel("添加新行")->setAttribs(array('class'=>'btn btn-primary btn-sm','onclick'=>'addNewLine()'));
         $this->setInlineBtn($addNew);
         $smtBtn=new Zend_Form_Element_Button('smtBtn');
         $smtBtn->setLabel("提交")->setAttribs(array('class'=>'btn btn-primary btn-sm','onclick'=>'smtform()'));

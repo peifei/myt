@@ -27,8 +27,8 @@ class Pricing_Model_DbTable_Pricing extends Zend_Db_Table_Abstract
         //var_dump($temp);
     }
     
-    public function getPricingListByDate($date){
-        $res=$this->fetchAll("date='".$date."'");
+    public function getPricingListByDate($datestart,$dateend){
+        $res=$this->fetchAll("date between '".$datestart."' and '".$dateend."'");
         return $res;
     }
     

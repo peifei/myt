@@ -6,8 +6,10 @@
 #dateform{margin: 10px}
 </style>
 <h3 class="page-header">划价记录查询</h3>
-<form id="dateform">
-请选择日期：<input type="text" name="date" id="date" value="<?php echo $this->date?>"/>
+<form id="dateform" class="form-inline" action="<?php echo SITE_BASE_URL.'pricing/list/'?>" method="post">
+请选择日期：<input type="text" name="datestart" id="datestart" value="<?php echo $this->datestart?>" class="form-control"/> ——
+<input type="text" name="dateend" id="dateend" value="<?php echo $this->dateend?>" class="form-control"/>
+<input type="submit" value="提交" class="btn btn-primary">
 </form>
 <?php if(count($this->pricingList)>0){?>
 <table class='table table-striped'>
@@ -18,6 +20,7 @@
     <td><?php echo $pricing['doc_name']?></td>
     <td><?php echo $pricing['num']?></td>
     <td><?php echo $pricing['sum']?></td>
+    <td><?php echo $pricing['date']?></td>
     <td><a onclick="loadPricingInfo(<?php echo $pricing['id']?>)">查看详细信息</a></td>
 </tr>
 <?php }?>
@@ -45,14 +48,20 @@
 </div>
 </div><!-- /.modal -->
 
-<script>
+<script><!--
 //绑定日期选择器
 $(function(){
 	//$.datepicker.formatDate( "yymmdd");
-	$("#date").datepicker({
-		onClose:function(){
+	$("#datestart").datepicker({
+		/*onClose:function(){
 			self.location="<?php echo SITE_BASE_URL.'pricing/list/?date='?>"+$(this).val();
-		}
+		}*/
+	});
+
+	$("#dateend").datepicker({
+		/*onClose:function(){
+			self.location="<?php echo SITE_BASE_URL.'pricing/list/?date='?>"+$(this).val();
+		}*/
 	});
 });
 
@@ -67,4 +76,4 @@ function loadPricingInfo(id){
         $(".modal-body").html(data);
     });
 }
-</script>
+--></script>
