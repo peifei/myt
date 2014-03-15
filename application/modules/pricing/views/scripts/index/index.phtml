@@ -8,14 +8,16 @@
 #base .form-group{margin-bottom:0}
 #pri{margin-top:15px;padding-top:10px; border-top: solid 1px #cccccc}
 .form-inline{margin:5px 0}
-#medtable tr td{font-size: 12px;width: 13%}
+#medtable tr td{font-size: 12px;width: 25%}
 #medtable tr td span:hover{cursor:pointer}
-#medList{position: fixed; width: 422px; top: 60px; left: 560px}
+#medList{position: fixed; width: 360px; top: 60px; left: 560px}
 .jumbotron{padding: 10px !important; margin-bottom: 0}
 .jumbotron p{font-size: 16px;font-weight: 200;margin-bottom: 5px;}
 .red{color: red; margin-left: 10px;}
 .right{float: right; margin-right: 10px}
 .right #open{display: none;}
+.num{width: 20px;text-align: left;display: inline-block;}
+.fun{margin-left: 20px}
 </style>
 <div class="row">
 <h3 class="page-header">处方划价</h3>
@@ -27,17 +29,17 @@
 <?php
 $i=1; 
 foreach($this->medList as $med){
-    if($i%5==1){
+    if($i%4==1){
         echo "<tr><td><span price='".$med['med_price']."'>".$med['med_name']."</span></td>";
-    }elseif($i%5==0){
+    }elseif($i%4==0){
         echo "<td><span price='".$med['med_price']."'>".$med['med_name']."</span></td></tr>";
     }else{
         echo "<td><span price='".$med['med_price']."'>".$med['med_name']."</span></td>";
     }
     $i++;
 }
-if(($i-1)%5!=0){
-    $padnum=5-(($i-1)%5);
+if(($i-1)%4!=0){
+    $padnum=4-(($i-1)%4);
     for($j=0;$j<$padnum;$j++){
         echo "<td>&nbsp;</td>";
     }
@@ -101,8 +103,8 @@ function loadPricingInfo(id){
 var j=1;
 //var newLine='<div class="form-inline"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
 //var newLine2='<div class="form-inline newest"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div>';
-var newLine='<div class="form-inline"><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
-var newLine2='<div class="form-inline newest"><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
+var newLine='<div class="form-inline"><div class="num">'+j+'</div><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
+var newLine2='<div class="form-inline newest"><div class="num">'+j+'</div><div class="form-group"><input type="text" name="y1" id="y1" value="" class="form-control input-sm yy" placeholder="药材名"></div><div class="form-group"><input type="text" name="p1" id="p1" value="" class="form-control input-sm pp" placeholder="单价"></div><div class="form-group"><input type="text" name="m1" id="m1" value="" class="form-control input-sm mm" placeholder="剂量"></div><div class="form-group"><input type="text" name="t1" id="t1" value="" class="form-control input-sm tt" placeholder="小计"></div></div></div>';
 
 function addNewLine(){
 	//newelement=$(".newest").clone().wrap('<p>').parent().html();
@@ -305,7 +307,9 @@ $(document).ready(function(){
 
 	$("#date").datepicker();
 	bindAutoCom();
-	$('#medList').css('left',$('#base').offset().left+630);
+	$('#medList').css('left',$('#base').offset().left+640);
+
+	$(".newest").children().first().before("<div class=\"num\">1</div>");
 	 
 });
 function bindAutoCom(){

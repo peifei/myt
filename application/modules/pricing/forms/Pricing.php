@@ -112,7 +112,7 @@ class Pricing_Form_Pricing extends Application_Form_MyForm
 
         $group2->setDecorators(array(
            'FormElements',
-           array('HtmlTag', array('tag' => 'div', 'class' => 'form-inline'))
+           array('HtmlTag', array('tag' => 'div', 'class' => 'form-inline fun'))
         ));
              
         //$this->addElements(array($name,$sex,$doc,$date));
