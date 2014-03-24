@@ -1,0 +1,21 @@
+<h3 class="page-header">病历管理</h3>
+<?php echo $this->form?>
+<table class="table table-strapped">
+<tr><th>患者姓名</th><th>修改病例</th><th>添加治疗计划</th><th>查看详细信息</th></tr>
+<?php foreach($this->paginator as $item){?>
+<tr>
+<td><?php echo $item['name']?></td>
+<td><a href="<?php echo SITE_BASE_URL.'medrecords/edit?id='.$item['id'] ?>">修改病例</a></td>
+<td><a href="<?php echo SITE_BASE_URL.'medrecords/addtreatment?id='.$item['id'] ?>">添加治疗计划</a></td>
+<td><a href="<?php echo SITE_BASE_URL.'medrecords/view?id='.$item['id'] ?>">查看</a></td>
+</tr>
+
+
+<?php }?>
+</table>
+<div>
+<?php
+echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    array('my_pagination_control.phtml', 'default')); ?>
+</div>
