@@ -75,3 +75,34 @@ CREATE TABLE IF NOT EXISTS `med_stockin` (
   `date_time` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `med_records`
+--
+
+CREATE TABLE IF NOT EXISTS `med_records` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `zs` varchar(50) NOT NULL,
+  `xbs` varchar(50) NOT NULL,
+  `zyzd` varchar(50) NOT NULL,
+  `zljh` varchar(200) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `med_records_zljh`
+--
+
+CREATE TABLE IF NOT EXISTS `med_records_zljh` (
+  `id` int(7) NOT NULL AUTO_INCREMENT,
+  `records_id` varchar(7) NOT NULL,
+  `zljh` varchar(500) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

@@ -12,7 +12,7 @@ class Medrecords_ViewController extends Zend_Controller_Action
     {
         $id=$this->getRequest()->getParam('id');
         if(preg_match("/^\d+$/",$id)){
-            echo $id;
+            
         }else{
             echo 'id error';
             // TODO error deal
