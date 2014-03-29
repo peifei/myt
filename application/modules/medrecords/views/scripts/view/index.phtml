@@ -1,1 +1,100 @@
-<br /><br /><center>View script for controller <b>View</b> and script/action name <b>index</b></center>
+<script src="<?php echo SITE_BASE_URL?>js/bootstrap.min.js"></script>
+<style type="text/css">
+.mylabel{text-align: right; font-weight: bold; margin-bottom: 15px;}
+.mycontent{margin-bottom: 15px; color: #666666; position:relative;}
+.mycontent .mydate{text-align: right; margin-right: 8px; font-size: 12px; color: #cccccc; border-bottom: dashed 1px #cccccc; padding-right: 15px;}
+.mycontent p{margin-right:30px}
+.mycontent a{position:absolute; right: 5px; top: 5px; cursor: pointer;}
+.table a:HOVER {cursor: pointer;}
+</style>
+
+<h3 class="page-header">查看病例详细信息</h3>
+<div class="col-sm-8">
+<div class="col-sm-3 mylabel">患者：</div><div class="col-sm-9 mycontent"><p><?php echo $this->mainMed['name']?></p><a href="#" onclick="updateMainRecord(<?php echo $this->mainMed['id'] ?>,'name')">编辑</a></div>
+<div class="col-sm-3 mylabel">主诉：</div><div class="col-sm-9 mycontent"><p><?php echo $this->mainMed['zs']?></p><a href="#" onclick="updateMainRecord(<?php echo $this->mainMed['id'] ?>,'zs')">编辑</a></div>
+<div class="col-sm-3 mylabel">现病史：</div><div class="col-sm-9 mycontent"><p><?php echo $this->mainMed['xbs']?></p><a href="#" onclick="updateMainRecord(<?php echo $this->mainMed['id'] ?>,'xbs')">编辑</a></div>
+<div class="col-sm-3 mylabel">中医诊断：</div><div class="col-sm-9 mycontent"><p><?php echo $this->mainMed['zyzd']?></p><a href="#" onclick="updateMainRecord(<?php echo $this->mainMed['id'] ?>,'zyzd')">编辑</a></div>
+<div class="col-sm-3 mylabel">治疗计划：</div><div class="col-sm-9 mycontent"><p><?php echo $this->mainMed['zljh']?></p><a href="#" onclick="updateMainRecord(<?php echo $this->mainMed['id'] ?>,'zljh')">编辑</a>
+																			<p class="mydate"><?php echo $this->mainMed['date']?></p>
+											</div>
+<?php if(isset($this->zljhs)){?>
+<?php foreach($this->zljhs as $zljh){?>
+<div class="col-sm-3 mylabel">后续治疗计划：</div><div class="col-sm-9 mycontent"><p><?php echo $zljh['zljh']?></p><a href="#" onclick="updateZljh(<?php echo $zljh['id']?>)">编辑</a>
+																			<p class="mydate"><?php echo $zljh['date']?></p>
+											</div>
+<?php }?>
+<?php }?>
+</div>
+<div style="clear: both;"></div>
+<h3 class="page-header">查看处方详细信息</h3>
+<?php if(count($this->pricingList)>0){?>
+<table class='table table-striped'>
+<tr><th>客户姓名</th><th>性别</th><th>出诊医师</th><th>出药数量</th><th>价格总计</th><th>日期</th><th>详细</th></tr>
+<?php foreach ($this->pricingList as $pricing){?>
+<tr><td><?php echo $pricing['name']?></td>
+    <td><?php echo $pricing['sex']?></td>
+    <td><?php echo $pricing['doc_name']?></td>
+    <td><?php echo $pricing['num']?></td>
+    <td><?php echo $pricing['sum']?></td>
+    <td><?php echo $pricing['date']?></td>
+    <td><a onclick="loadPricingInfo(<?php echo $pricing['id']?>)">查看详细信息</a></td>
+</tr>
+<?php }?>
+</table>
+<?php }?>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class='modal-dialog'>
+	<div class='modal-content'>
+		<div class='modal-header'>
+			<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+			<h4 class='modal-title' id='myModalLabel'>划价单详细信息</h4>
+		</div>
+		<div class='modal-body'>
+		</div>
+		<div class='modal-footer'>
+			<button type='button' class='btn btn-default' data-dismiss='modal'>关闭</button>
+		</div>
+	</div>
+</div>
+</div><!-- /.modal -->
+
+
+<script>
+function loadPricingInfo(id){
+	$(".modal-body").html('数据载入中，请稍等......');
+	$("#myModal").modal('show');
+	url="<?php echo SITE_BASE_URL.'medrecords/index/pricing-detail?id='?>"+id;
+	$.ajax({
+        url: url,
+    }).success(function(data) {
+        $(".modal-body").html(data);
+    });
+}
+
+
+function updateMainRecord(id,item){
+	$("#myModalLabel").html('更新');
+	$(".modal-body").html('数据载入中，请稍等......');
+	$("#myModal").modal('show');
+	url="<?php echo SITE_BASE_URL.'medrecords/index/showelement?id='?>"+id+"<?php echo "&ename="?>"+item;
+	$.ajax({
+        url: url,
+    }).success(function(data) {
+        $(".modal-body").html(data);
+    });
+}
+
+function updateZljh(id){
+	$("#myModalLabel").html('更新');
+	$(".modal-body").html('数据载入中，请稍等......');
+	$("#myModal").modal('show');
+	url="<?php echo SITE_BASE_URL.'medrecords/index/showzljh?id='?>"+id;
+	$.ajax({
+        url: url,
+    }).success(function(data) {
+        $(".modal-body").html(data);
+    });
+}
+</script>

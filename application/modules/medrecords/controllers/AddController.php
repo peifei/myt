@@ -17,6 +17,8 @@ class Medrecords_AddController extends Zend_Controller_Action
             if($form->isValid($request->getPost())){
                 $dbMedredords=new Medrecords_Model_DbTable_MedRecords();
                 $dbMedredords->addNewMedRecords($form->getValues());
+                $this->_helper->flashMessenger->addMessage('alert-success|新病例添加成功');
+                $this->redirect(SITE_BASE_URL.'medrecords/');
             }
         }
     }

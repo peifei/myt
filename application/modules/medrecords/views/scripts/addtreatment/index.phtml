@@ -1,0 +1,24 @@
+<style type="text/css">
+.mylabel{text-align: right; font-weight: bold; margin-bottom: 15px;}
+.mycontent{margin-bottom: 15px; color: #666666}
+.mycontent .mydate{text-align: right; margin-right: 8px; font-size: 12px; color: #cccccc; border-bottom: dashed 1px #cccccc}
+</style>
+
+<h3 class="page-header">添加新的治疗计划</h3>
+<div class="col-sm-8">
+<div class="col-sm-3 mylabel">患者：</div><div class="col-sm-9 mycontent"><?php echo $this->mainMed['name']?></div>
+<div class="col-sm-3 mylabel">主诉：</div><div class="col-sm-9 mycontent"><?php echo $this->mainMed['zs']?></div>
+<div class="col-sm-3 mylabel">现病史：</div><div class="col-sm-9 mycontent"><?php echo $this->mainMed['xbs']?></div>
+<div class="col-sm-3 mylabel">中医诊断：</div><div class="col-sm-9 mycontent"><?php echo $this->mainMed['zyzd']?></div>
+<div class="col-sm-3 mylabel">治疗计划：</div><div class="col-sm-9 mycontent"><p><?php echo $this->mainMed['zljh']?></p>
+																			<p class="mydate"><?php echo $this->mainMed['date']?></p>
+											</div>
+<?php if(isset($this->zljhs)){?>
+<?php foreach($this->zljhs as $zljh){?>
+<div class="col-sm-3 mylabel">后续治疗计划：</div><div class="col-sm-9 mycontent"><p><?php echo $zljh['zljh']?></p>
+																			<p class="mydate"><?php echo $zljh['date']?></p>
+											</div>
+<?php }?>
+<?php }?>
+</div>
+<?php echo $this->form?>

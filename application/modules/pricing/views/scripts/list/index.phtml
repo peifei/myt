@@ -13,7 +13,7 @@
 </form>
 <?php if(count($this->pricingList)>0){?>
 <table class='table table-striped'>
-<tr><th>客户姓名</th><th>性别</th><th>出诊医师</th><th>出药数量</th><th>价格总计</th><th>详细</th></tr>
+<tr><th>客户姓名</th><th>性别</th><th>出诊医师</th><th>出药数量</th><th>价格总计</th><th>日期</th><th>详细</th></tr>
 <?php foreach ($this->pricingList as $pricing){?>
 <tr><td><?php echo $pricing['name']?></td>
     <td><?php echo $pricing['sex']?></td>

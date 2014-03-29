@@ -32,6 +32,11 @@ class Pricing_Model_DbTable_Pricing extends Zend_Db_Table_Abstract
         return $res;
     }
     
+    public function getPricingListByName($name){
+        $res=$this->fetchAll("name = '".$name."'");
+        return $res;
+    }
+    
     public function getPricingInfoById($id){
         $res=$this->fetchRow("id='".$id."'");
         return $res;
@@ -95,6 +100,8 @@ class Pricing_Model_DbTable_Pricing extends Zend_Db_Table_Abstract
             throw new Exception('提交的 数据有空值，请重新提交');
         }
     }
+    
+    
 
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Medrecords_ViewController extends Zend_Controller_Action
+class Medrecords_AddtreatmentController extends Zend_Controller_Action
 {
 
     public function init()
@@ -10,12 +10,6 @@ class Medrecords_ViewController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $flashMsg=$this->_helper->flashMessenger->getMessages();
-        if(isset($flashMsg[0])){
-            $arrMsg=explode('|',$flashMsg[0]);
-            $this->view->msgType=$arrMsg[0];
-            $this->view->fbmsg=$arrMsg[1];
-        }
         $id=$this->getRequest()->getParam('id');
         if(preg_match("/^\d+$/",$id)){
             //获取主病例信息
@@ -26,14 +20,25 @@ class Medrecords_ViewController extends Zend_Controller_Action
             $dbMedRecordsZljh=new Medrecords_Model_DbTable_MedRecordsZljh();
             $zljhs=$dbMedRecordsZljh->getZljhByRecordsId($id);
             $this->view->zljhs=$zljhs;
-            //获取处方信息
-            $dbPricing=new Pricing_Model_DbTable_Pricing();
-            $pricingList=$dbPricing->getPricingListByName($mainMed['name']);
-            $this->view->pricingList=$pricingList;
+            //定义新计划表单
+            $form=new Medrecords_Form_Zljh();
+            $this->view->form=$form;
+            $request=$this->getRequest();
+            if($request->isPost()){
+                if($form->isValid($request->getPost())){
+                    $dbMedRecordsZljh->addNewZljh($id, $form->getValue('zljh'));
+                    $this->redirect(SITE_BASE_URL.'medrecords/addtreatment/jump?id='.$id);
+                }
+            }
         }else{
             echo 'id error';
             // TODO error deal
         }
+    }
+    
+    public function jumpAction(){
+        $id=$this->getRequest()->getParam('id');
+        $this->redirect(SITE_BASE_URL.'medrecords/addtreatment?id='.$id);
     }
 
 

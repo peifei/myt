@@ -65,6 +65,28 @@ class Medrecords_Form_Records extends Application_Form_MyForm
         
         $this->addElements(array($name,$zs,$xbs,$zyzd,$zljh,$smtBtn));
     }
+    
+    public function prepareForupdate($id,$elName){
+        $this->setAction(SITE_BASE_URL.'medrecords/index/showelement');
+        $this->setAttrib('class', 'form-horizontal col-sm-12');
+        $elements=$this->getElements();
+        foreach($elements as $element){
+            if($elName!=$element->getName()&&'smtBtn'!=$element->getName()){
+                $this->removeElement($element->getName());
+            }
+        }
+        $dbMedrecord=new Medrecords_Model_DbTable_MedRecords();
+        $medRecord=$dbMedrecord->getMedRecordsById($id);
+        $this->getElement($elName)->setValue($medRecord[$elName]);
+        $eid=new Zend_Form_Element_Hidden('id');
+        $eid->removeDecorator('Label');
+        $eid->setValue($id);
+        $ename=new Zend_Form_Element_Hidden('ename');
+        $ename->removeDecorator('Label');
+        $ename->setValue($elName);
+        
+        $this->addElements(array($eid,$ename));
+    }
 
 
 }
